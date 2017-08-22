@@ -16,7 +16,7 @@ class AtLeastTenEarlyBirdSeatsDiscountStrategy implements SeatDiscountStrategy
         $this->configuration = $configuration;
     }
 
-    public function calculate(Seat $seat, $price, $discountedPrice)
+    public function calculate(Seat $seat, int $price, ?float $discountedPrice): float
     {
         if ($seat->getQuantity() >= 10 && $this->configuration->isEnabledForSeat(__CLASS__, $seat) && $discountedPrice === null) {
             return $price * $seat->getQuantity() * 0.85;

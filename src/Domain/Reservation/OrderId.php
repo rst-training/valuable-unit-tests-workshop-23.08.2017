@@ -13,9 +13,6 @@ class OrderId
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;

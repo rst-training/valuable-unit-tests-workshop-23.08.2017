@@ -2,6 +2,7 @@
 namespace RstGroup\ConferenceSystem\Application;
 
 use RstGroup\ConferenceSystem\Domain\Payment\PaypalPayments;
+use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RegistrationService
 {
-    public function reserveSeats($orderId, $conferenceId, $seats)
+    public function reserveSeats(int $orderId, int $conferenceId, array $seats)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
 
@@ -23,14 +24,14 @@ class RegistrationService
         $conference->makeReservationForOrder(new OrderId($orderId), $seatsCollection);
     }
 
-    public function cancelReservation($orderId, $conferenceId)
+    public function cancelReservation(int $orderId, int $conferenceId)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
 
         $conference->cancelReservationForOrder(new OrderId($orderId));
     }
 
-    public function confirmOrder($orderId, $conferenceId)
+    public function confirmOrder(int $orderId, int $conferenceId)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
         $reservation = $conference->getReservations()->get(new ReservationId(new ConferenceId($conferenceId), new OrderId($orderId)));
@@ -56,7 +57,7 @@ class RegistrationService
         $response->send();
     }
 
-    protected function fromArray($seats)
+    protected function fromArray(array $seats): SeatsCollection
     {
         $seatsCollection = new SeatsCollection();
 
@@ -67,22 +68,22 @@ class RegistrationService
         return $seatsCollection;
     }
 
-    protected function getConferenceRepository()
+    protected function getConferenceRepository(): ConferenceMemoryRepository
     {
         return new ConferenceMemoryRepository();
     }
 
-    protected function getConferenceDao()
+    protected function getConferenceDao(): ConferenceSeatsDao
     {
         return new ConferenceSeatsDao(['dns' => 'mysql:host=localhost;dbname=test', 'username' => 'admin', 'password' => 'test', 'options' => []]);
     }
 
-    protected function getDiscountService()
+    protected function getDiscountService(): DiscountService
     {
-        return new DiscountService();
+        return new DiscountService(new SeatsStrategyConfiguration());
     }
 
-    protected function getPaypalPayments()
+    protected function getPaypalPayments(): PaypalPayments
     {
         return new PaypalPayments();
     }

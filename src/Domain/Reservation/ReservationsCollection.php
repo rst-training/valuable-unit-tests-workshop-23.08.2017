@@ -13,7 +13,7 @@ class ReservationsCollection
         $this->reservations[$reservation->getReservationId()->getHashKey()] = $reservation;
     }
 
-    public function has(ReservationId $reservationId)
+    public function has(ReservationId $reservationId): bool
     {
         return array_key_exists($reservationId->getHashKey(), $this->reservations);
     }
@@ -26,7 +26,7 @@ class ReservationsCollection
     /**
      * @return Reservation
      */
-    public function get(ReservationId $reservationId)
+    public function get(ReservationId $reservationId): Reservation
     {
         return $this->reservations[$reservationId->getHashKey()];
     }
@@ -35,16 +35,12 @@ class ReservationsCollection
     /**
      * @return Reservation[]
      */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->reservations;
     }
 
-    /**
-     * @param array $seats
-     * @return ReservationsCollection
-     */
-    public static function fromArray(array $reservations)
+    public static function fromArray(array $reservations): ReservationsCollection
     {
         $reservationsCollection = new self();
         foreach ($reservations as $reservation) {

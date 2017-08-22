@@ -8,12 +8,12 @@ class SeatsAvailabilityCollection
 {
     protected $seats = [];
 
-    public function set($type, $quantity)
+    public function set(string $type, int $quantity)
     {
         $this->seats[$type] = $quantity;
     }
 
-    public function getQuantity($type)
+    public function getQuantity($type): int
     {
         return $this->seats[$type];
     }
@@ -30,9 +30,8 @@ class SeatsAvailabilityCollection
 
     /**
      * @param Seat[] $seats
-     * @return SeatsCollection
      */
-    public static function fromArray(array $seats)
+    public static function fromArray(array $seats): SeatsCollection
     {
         $seatsCollection = new self();
         foreach ($seats as $seat) {

@@ -14,11 +14,7 @@ class ConferenceMemoryRepository
         $this->conferences[$conference->getId()->getId()] = $conference;
     }
 
-    /**
-     * @param ConferenceId $id
-     * @return Conference
-     */
-    public function get(ConferenceId $id)
+    public function get(ConferenceId $id): Conference
     {
         return $this->conferences[$id->getId()];
     }

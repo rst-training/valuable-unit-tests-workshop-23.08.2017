@@ -7,12 +7,7 @@ class Seat
     private $type;
     private $quantity;
 
-    /**
-     * Seat constructor.
-     * @param $type
-     * @param $quantity
-     */
-    public function __construct($type, $quantity)
+    public function __construct(string $type, int $quantity)
     {
         $this->type = $type;
 
@@ -23,18 +18,12 @@ class Seat
         $this->quantity = $quantity;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }

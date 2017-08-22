@@ -7,12 +7,7 @@ use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class SeatsStrategyConfiguration
 {
-    /**
-     * @param string $strategy
-     * @param Seat $seat
-     * @return bool
-     */
-    public function isEnabledForSeat($strategy, Seat $seat)
+    public function isEnabledForSeat(string $strategy, Seat $seat): bool
     {
         return false;
     }

@@ -2,6 +2,8 @@
 
 namespace RstGroup\ConferenceSystem\Domain\Payment;
 
+use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
+
 class DiscountService
 {
     /**
@@ -14,7 +16,7 @@ class DiscountService
         $this->configuration = $configuration;
     }
 
-    public function calculateForSeat($seat, $price)
+    public function calculateForSeat(Seat $seat, int $price): float
     {
         $discountedPrice = null;
 
@@ -25,7 +27,7 @@ class DiscountService
         return $discountedPrice;
     }
 
-    protected function seatDiscountStrategies()
+    protected function seatDiscountStrategies(): array
     {
        return [
            new AtLeastTenEarlyBirdSeatsDiscountStrategy($this->configuration),

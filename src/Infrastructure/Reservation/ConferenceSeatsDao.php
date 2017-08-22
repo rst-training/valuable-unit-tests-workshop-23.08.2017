@@ -6,16 +6,15 @@ class ConferenceSeatsDao
 {
     protected $connection;
 
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $this->connection = new \PDO($config['dns'], $config['username'], $config['password'], $config['options']);
     }
 
     /**
-     * @param $conferenceId
      * @return SeatPrice[]
      */
-    public function getSeatsPrices($conferenceId)
+    public function getSeatsPrices(int $conferenceId): array
     {
         $sth = $this->connection->prepare("SELECT seat_type, price FROM conference_seats WHERE conference_id = :conference_id");
         $sth->bindParam(':conference_id', $conferenceId, \PDO::PARAM_INT);

@@ -27,8 +27,6 @@ class Conference
     }
 
     /**
-     * @param OrderId $orderId
-     * @param SeatsCollection $seats
      * @throws ReservationAlreadyExist
      */
     public function makeReservationForOrder(OrderId $orderId, SeatsCollection $seats)
@@ -52,10 +50,9 @@ class Conference
     }
 
     /**
-     * @param $orderId
      * @throws ReservationDoesNotExist
      */
-    public function cancelReservationForOrder($orderId)
+    public function cancelReservationForOrder(OrderId $orderId)
     {
         if (!$this->isReservationForOrder($orderId)) {
             throw new ReservationDoesNotExist();
@@ -99,33 +96,27 @@ class Conference
         //todo
     }
 
-    public function getFreeSeatsCountByType($type)
+    public function getFreeSeatsCountByType($type): int
     {
         return $this->seatsAvailability->getQuantity($type);
     }
 
-    public function isReservationForOrderOnWaitList(OrderId $orderId)
+    public function isReservationForOrderOnWaitList(OrderId $orderId): bool
     {
         return $this->waitList->has(new ReservationId($this->id, $orderId));
     }
 
-    public function isReservationForOrder(OrderId $orderId)
+    public function isReservationForOrder(OrderId $orderId): bool
     {
         return $this->reservations->has(new ReservationId($this->id, $orderId));
     }
 
-    /**
-     * @return ConferenceId
-     */
-    public function getId()
+    public function getId(): ConferenceId
     {
         return $this->id;
     }
 
-    /**
-     * @return ReservationsCollection
-     */
-    public function getReservations()
+    public function getReservations(): ReservationsCollection
     {
         return $this->reservations;
     }

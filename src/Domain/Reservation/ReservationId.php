@@ -15,7 +15,7 @@ class ReservationId
         $this->conferenceId = $conferenceId;
     }
 
-    public function getHashKey()
+    public function getHashKey(): string
     {
         return "{$this->conferenceId->getId()}-{$this->orderId->getId()}";
     }

@@ -15,18 +15,12 @@ class Reservation
         $this->seats = $seats;
     }
 
-    /**
-     * @return ReservationId
-     */
-    public function getReservationId()
+    public function getReservationId(): ReservationId
     {
         return $this->reservationId;
     }
 
-    /**
-     * @return SeatsCollection
-     */
-    public function getSeats()
+    public function getSeats(): SeatsCollection
     {
         return $this->seats;
     }

@@ -14,16 +14,12 @@ class SeatsCollection
     /**
      * @return Seat[]
      */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->seats;
     }
 
-    /**
-     * @param array $seats
-     * @return SeatsCollection
-     */
-    public static function fromArray(array $seats)
+    public static function fromArray(array $seats): SeatsCollection
     {
         $seatsCollection = new self();
         foreach ($seats as $seat) {
