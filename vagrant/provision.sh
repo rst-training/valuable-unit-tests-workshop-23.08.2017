@@ -1,5 +1,8 @@
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
-sudo apt-get install -y php5-cli curl
+sudo yum install -y php71w-cli php71w-xml
+
 curl -Ss https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/bin/composer
 
