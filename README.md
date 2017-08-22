@@ -1,6 +1,6 @@
 # Workshop participant
 
-Jan Kowalski  
+Mateusz Piotrowski  
 
 # Setup
 
