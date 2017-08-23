@@ -33,7 +33,7 @@ class ConferenceTest extends TestCase
     /**
      * @test
      */
-    public function should_increment_seats_availability_for_all_types_of_seats_in_reservation()
+    public function should_increment_seats_availability_for_all_types_of_seats_in_reservation_after_cancellation()
     {
 
     }
