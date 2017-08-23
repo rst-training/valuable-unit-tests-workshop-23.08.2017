@@ -13,4 +13,18 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function testExistenceOfReservation();
+    public function testForAvailableNumOfSeats();
+    public function testOrderIdExistenceThrowingException();
+    public function testNumOfSeatsVsSeatsAvailability();
+    public function testQuantityAfterAddingToWaitList();
+    public function testQuantityAfterAddingReservation();
+    public function testSeatsAfterSeatsReservation();
+    public function testSeatsQuantityAfterSeatsReservation();
+    public function testIfSeatIsOccupiedAfterMakeReservation();
+    public function testMakeReservationForOrderWhichAlreadyExist();
+    public function testMakeReservationForOrderForNonexistingOrder();
+
+
 }
