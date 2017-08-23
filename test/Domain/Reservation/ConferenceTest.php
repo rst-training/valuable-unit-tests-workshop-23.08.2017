@@ -14,17 +14,15 @@ class ConferenceTest extends TestCase
         $this->markTestSkipped();
     }
 
-    public function test_throwReservationAlreadyExistWhenOrderIdIsNotReservation(){
-
-    }
-	
-	public function test_checkIfAddedAllUnavalibilitySeatsToWaitingList(){
-		
-	}
-	
-	public function test_addReservationToAvaliblitySeat(){
-	
-	}
-	
-	public function test_
+  //   public function test_throwReservationAlreadyExistWhenOrderIdIsNotReservation(){
+  //
+  //   }
+  //
+	// public function test_checkIfAddedAllUnavalibilitySeatsToWaitingList(){
+  //
+	// }
+  //
+	// public function test_addReservationToAvaliblitySeat(){
+  //
+	// }
 }
