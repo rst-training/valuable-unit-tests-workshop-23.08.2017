@@ -2,6 +2,8 @@
 
 namespace RstGroup\ConferenceSystem\Domain\Reservation;
 
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
+
 class SeatsCollection
 {
     protected $seats = [];
@@ -27,5 +29,13 @@ class SeatsCollection
         }
 
         return $seatsCollection;
+    }
+
+    public function getSeatsTotalPrice(array $seatsPrices, DiscountService $discountService){
+        $totalCost = 0;
+
+        foreach ($this->getAll() as $seat) {
+            $totalCost += min($seat->getSeatPriceWithDiscount($seatsPrices, $discountService), $seat->getSeatPrice($seatsPrices));
+        }
     }
 }

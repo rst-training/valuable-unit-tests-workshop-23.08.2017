@@ -2,6 +2,8 @@
 
 namespace RstGroup\ConferenceSystem\Domain\Reservation;
 
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
+
 class Seat
 {
     private $type;
@@ -26,5 +28,15 @@ class Seat
     public function getQuantity(): int
     {
         return $this->quantity;
+    }
+
+    public function getSeatPrice(array $seatsPrices){
+        $priceForSeat = $seatsPrices[$this->getType()][0];
+        return $priceForSeat * $this->getQuantity();
+    }
+
+    public function getSeatPriceWithDiscount(array $seatsPrices, DiscountService $discountService){
+        $priceForSeat = $seatsPrices[$this->getType()][0];
+        return $discountService->calculateForSeat($this, $priceForSeat);
     }
 }
