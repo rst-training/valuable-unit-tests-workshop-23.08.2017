@@ -13,4 +13,8 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function test_throwReservationAlreadyExistWhenOrderIdIsNotReservation(){
+
+    }
 }
