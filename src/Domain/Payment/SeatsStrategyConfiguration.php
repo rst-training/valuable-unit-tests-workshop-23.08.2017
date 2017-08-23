@@ -9,6 +9,6 @@ class SeatsStrategyConfiguration
 {
     public function isEnabledForSeat(string $strategy, Seat $seat): bool
     {
-        return false;
+        return true;
     }
 }
