@@ -20,10 +20,20 @@ class DiscountServiceTest extends TestCase
         $discountService = new DiscountService($configuration);
         $seat = $this->getMockBuilder(Seat::class)->disableOriginalConstructor()->getMock();
 
-        $configuration->expects($this->at(0))->method('isEnabledForSeat')->with(AtLeastTenEarlyBirdSeatsDiscountStrategy::class)->willReturn(true);
-        $configuration->expects($this->at(1))->method('isEnabledForSeat')->with(FreeSeatDiscountStrategy::class)->willReturn(false);
+        //zrobic bez mockow: co na wejsciu i wyjsciu
+        //te mocki robią:
+        //pierwsza znizke włącza
+        ////$configuration->expects($this->at(0))->method('isEnabledForSeat')->with(AtLeastTenEarlyBirdSeatsDiscountStrategy::class)->willReturn(true);
+        // druga zniżka jest wyłączona
+        ////$configuration->expects($this->at(1))->method('isEnabledForSeat')->with(FreeSeatDiscountStrategy::class)->willReturn(false);
+        // dwa odpalenia funkcji mają zwrócić 10 zajetych miejsc
         $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
 
-        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+
+
+        //przekazać klasę która obsługuje ile jest zniżki
+        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7, new AtLeastTenEarlyBirdSeatsDiscountStrategy()), 0.01);
+        $this->assertEquals(70, $discountService->calculateForSeat($seat, 7, new FreeSeatDiscountStrategy()), 0.01);
+
     }
 }
