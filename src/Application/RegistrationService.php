@@ -57,6 +57,23 @@ class RegistrationService
         $response->send();
     }
 
+    protected function calculateTotalCostFromSeats(array $seats, array $seatsPrices): totalCost
+    {
+        $totalCost = 0;
+
+        foreach ($seats->getAll() as $seat)
+        {
+            $priceForSeat = $seatsPrices[$seat->getType()][0];
+
+            $dicountedPrice = $this->getDiscountService()->calculateForSeat($seat, $priceForSeat);
+            $regularPrice = $priceForSeat * $seat->getQuantity();
+
+            $totalCost += min($dicountedPrice, $regularPrice);
+        }
+
+        return $totalCost;
+    }
+
     protected function fromArray(array $seats): SeatsCollection
     {
         $seatsCollection = new SeatsCollection();
