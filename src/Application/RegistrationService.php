@@ -13,6 +13,14 @@ use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDao;
 use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceMemoryRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+function calculateSeatPrice($seat, $seatPrives, $dicountedService) {
+    $priceForSeat = $seatsPrices[$seat->getType()][0];
+    $dicountedPrice = $getDiscountService()->calculateForSeat($seat, $priceForSeat);
+    $regularPrice = $priceForSeat * $seat->getQuantity();
+
+    return min($dicountedPrice, $regularPrice);
+}
+
 class RegistrationService
 {
     public function reserveSeats(int $orderId, int $conferenceId, array $seats)
@@ -41,12 +49,7 @@ class RegistrationService
         $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
 
         foreach ($seats->getAll() as $seat) {
-            $priceForSeat = $seatsPrices[$seat->getType()][0];
-
-            $dicountedPrice = $this->getDiscountService()->calculateForSeat($seat, $priceForSeat);
-            $regularPrice = $priceForSeat * $seat->getQuantity();
-
-            $totalCost += min($dicountedPrice, $regularPrice);
+            $totalCost += calculateSeatPrice($seat, $seatsPrices, $this->getDiscountService());
         }
 
         $conference->closeReservationForOrder(new OrderId($orderId));
