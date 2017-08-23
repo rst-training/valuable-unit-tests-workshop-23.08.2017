@@ -9,7 +9,7 @@ use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
 use RstGroup\ConferenceSystem\Domain\Reservation\ReservationId;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 use RstGroup\ConferenceSystem\Domain\Reservation\SeatsCollection;
-use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDao;
+use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDaoPdo;
 use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceMemoryRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -33,8 +33,10 @@ class RegistrationService
 
     public function confirmOrder(int $orderId, int $conferenceId)
     {
-        $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
-        $reservation = $conference->getReservations()->get(new ReservationId(new ConferenceId($conferenceId), new OrderId($orderId)));
+        $conferenceId = new ConferenceId($conferenceId);
+
+        $conference = $this->getConferenceRepository()->get($conferenceId);
+        $reservation = $conference->getReservations()->get(new ReservationId($conferenceId, new OrderId($orderId)));
 
         $totalCost = 0;
         $seats = $reservation->getSeats();
@@ -73,9 +75,9 @@ class RegistrationService
         return new ConferenceMemoryRepository();
     }
 
-    protected function getConferenceDao(): ConferenceSeatsDao
+    protected function getConferenceDao(): ConferenceSeatsDaoPdo
     {
-        return new ConferenceSeatsDao(['dns' => 'mysql:host=localhost;dbname=test', 'username' => 'admin', 'password' => 'test', 'options' => []]);
+        return new ConferenceSeatsDaoPdo(['dns' => 'mysql:host=localhost;dbname=test', 'username' => 'admin', 'password' => 'test', 'options' => []]);
     }
 
     protected function getDiscountService(): DiscountService
