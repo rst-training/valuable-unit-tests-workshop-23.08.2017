@@ -1,6 +1,7 @@
 # Workshop participant
 
 Jan Kowalski  
+Łukasz Stolcman
 
 # Setup
 
