@@ -13,7 +13,7 @@ class RegistrationServiceTest extends TestCase
         $conferenceId = 1234
         $orderId = 987
 
-        $conferenceMock = $this->getMockBuilder(Conference::class)
+        $conferenceMock = $this->getMockBuilder(Conference::class)->getMock()
         $conferenceMock->expects()
                 ->method('getReservations')
                 ->willReturn()
@@ -25,7 +25,7 @@ class RegistrationServiceTest extends TestCase
                 ->willReturn($conferenceMock)
 
         // expects
-        $paypalPayments = $this->getMockBuilder(PaypalPayments::class)
+        $paypalPayments = $this->getMockBuilder(PaypalPayments::class)->getMock()
         $paypalPayments->expects()
                 ->method('calculateForSeat')
                 ->with($seat, $expectedCost)
