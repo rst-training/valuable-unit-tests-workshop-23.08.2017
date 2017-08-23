@@ -2,6 +2,7 @@
 
 namespace RstGroup\ConferenceSystem\Domain\Payment;
 
+use PHPUnit\Runner\Exception;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class DiscountService
@@ -9,29 +10,21 @@ class DiscountService
     /**
      * @var SeatsStrategyConfiguration
      */
-    private $configuration;
+    private $discountStrategies;
 
-    public function __construct(SeatsStrategyConfiguration $configuration)
+    public function __construct($discountStrategies)
     {
-        $this->configuration = $configuration;
+        $this->discountStrategies = $discountStrategies;
     }
 
     public function calculateForSeat(Seat $seat, int $price): float
     {
         $discountedPrice = null;
 
-        foreach ($this->seatDiscountStrategies() as $strategy) {
-            $discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);
+        foreach ($this->discountStrategies as $strategy) {$discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);
         }
 
         return $discountedPrice;
     }
 
-    protected function seatDiscountStrategies(): array
-    {
-       return [
-           new AtLeastTenEarlyBirdSeatsDiscountStrategy($this->configuration),
-           new FreeSeatDiscountStrategy($this->configuration),
-       ];
-    }
 }
