@@ -13,4 +13,16 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function makeReservationForOrderShouldThrowExceptionIfReservationWithGivenOrderIdAlreadyExist(){
+        $this->markTestSkipped();
+    }
+
+    public function makeReservationForOrderShouldAddNewReservationWithGivenOrderIdToWaitListIfAvailableSeatsQuantityOfGivenTypeIsLowerThenInNewReservation() {
+        $this->markTestSkipped();
+    }
+
+    public function makeReservationForOrderShouldAddNewReservationWithGivenOrderIdIfThereIsEnoughtAvailableSeatsOfGivenType() {
+        $this->markTestSkipped();
+    }
 }
