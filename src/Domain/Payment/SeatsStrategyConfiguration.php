@@ -7,8 +7,11 @@ use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class SeatsStrategyConfiguration
 {
-    public function isEnabledForSeat(string $strategy, Seat $seat): bool
+    public function discountStrategiesFor(Seat $seat): array
     {
-        return false;
+        return [
+            new AtLeastTenEarlyBirdSeatsDiscountStrategy($this),
+            new FreeSeatDiscountStrategy($this),
+        ];
     }
 }

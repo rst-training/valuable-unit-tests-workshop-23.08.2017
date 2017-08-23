@@ -6,24 +6,38 @@ use PHPUnit\Framework\TestCase;
 use RstGroup\ConferenceSystem\Domain\Payment\AtLeastTenEarlyBirdSeatsDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Payment\FreeSeatDiscountStrategy;
+use RstGroup\ConferenceSystem\Domain\Payment\SeatDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class DiscountServiceTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function returns_price_discounted_by_15_percent_if_at_least_10_early_bird_seats_are_bought()
+    /** @test */
+    public function returns_discounted_price_of_the_last_strategy()
     {
         $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
         $discountService = new DiscountService($configuration);
-        $seat = $this->getMockBuilder(Seat::class)->disableOriginalConstructor()->getMock();
+        $seat = new Seat('workshops', 10);
 
-        $configuration->expects($this->at(0))->method('isEnabledForSeat')->with(AtLeastTenEarlyBirdSeatsDiscountStrategy::class)->willReturn(true);
-        $configuration->expects($this->at(1))->method('isEnabledForSeat')->with(FreeSeatDiscountStrategy::class)->willReturn(false);
-        $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
+        $strategy1 = $this->strategyReturningDiscountedPrice(1);
+        $strategy2 = $this->strategyReturningDiscountedPrice(2);
+        $strategy3 = $this->strategyReturningDiscountedPrice(3);
 
-        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+        $configuration
+            ->expects($this->any())
+            ->method('discountStrategiesFor')
+            ->with($seat)
+            ->willReturn([$strategy1, $strategy2, $strategy3]);
+
+        $this->assertEquals(3, $discountService->calculateForSeat($seat, 7));
     }
+
+    private function strategyReturningDiscountedPrice(float $discountedPrice): SeatDiscountStrategy
+    {
+        $strategy = $this->getMockBuilder(SeatDiscountStrategy::class)->getMock();
+        $strategy->expects($this->any())->method('calculate')->willReturn($discountedPrice);
+
+        return $strategy;
+    }
+
 }
