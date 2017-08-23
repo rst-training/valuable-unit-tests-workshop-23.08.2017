@@ -17,4 +17,14 @@ class ConferenceTest extends TestCase
     public function test_throwReservationAlreadyExistWhenOrderIdIsNotReservation(){
 
     }
+	
+	public function test_checkIfAddedAllUnavalibilitySeatsToWaitingList(){
+		
+	}
+	
+	public function test_addReservationToAvaliblitySeat(){
+	
+	}
+	
+	public function test_
 }
